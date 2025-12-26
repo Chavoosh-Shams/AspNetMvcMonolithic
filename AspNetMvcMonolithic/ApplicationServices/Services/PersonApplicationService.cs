@@ -17,6 +17,7 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
         }
         #endregion
 
+        #region [-Implement IPersonApplicationService-]
 
         #region [-GetAllPersonAsync-]
         public async Task<List<GetPersonDtos>> GetAllPersonAsync()
@@ -38,7 +39,27 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
                 getPersonDtos.Add(g);
             }
             return getPersonDtos;
-        } 
+        }
         #endregion
+
+
+        #region [-GetPersonById-]
+        public async Task<PersonDetail> GetPersonById(Guid id)
+        {
+            var person = _personRepository.GetPersonById(id);
+            if (person == null)
+            {
+                return null;
+            }
+            var PersonDetail = new PersonDetail();
+            PersonDetail.Id = person.Id;
+            PersonDetail.FirstName = person.FirstName;
+            PersonDetail.LastName = person.LastName;
+            return PersonDetail;
+        }
+        #endregion 
+
+        #endregion
+
     }
 }

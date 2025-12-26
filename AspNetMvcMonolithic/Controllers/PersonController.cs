@@ -20,7 +20,24 @@ namespace AspNetMvcMonolithic.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _personApplicationService.GetAllPersonAsync());
+        }
+        #endregion
+
+        #region [-Details-]
+        public async Task<IActionResult> Details(Guid Id)
+        {
+            if (Id == Guid.Empty)
+            {
+                return NotFound();
+            }
+            var Person = await _personApplicationService.GetPersonById(Id);
+            if (Person == null)
+            {
+                return NotFound();
+            }
+            return View(Person);
         } 
         #endregion
+
     }
 }

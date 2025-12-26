@@ -15,9 +15,13 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         {
             _context = context;
         }
+
         #endregion
 
         #region [-Implement IPersonRepository-]
+
+
+        #region [-SelectAll-]
         public async Task<IEnumerable<Person>> SelectAll()
         {
             try
@@ -29,6 +33,17 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
                 throw;
             }
         }
+        #endregion
+
+
+        #region [-GetAllPersonById-]
+        public Person GetPersonById(Guid id)
+        {
+            return _context.Person.FirstOrDefault(p => p.Id == id);
+        } 
+        #endregion
+
+
         #endregion
     }
 }
