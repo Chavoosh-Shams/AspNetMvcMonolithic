@@ -7,5 +7,7 @@ namespace AspNetMvcMonolithic.Models.Services.Contracts
         Task<IEnumerable<Person>> SelectAll();//SelectAll
 
         Person GetPersonById(Guid id); //SelectPersonById
+
+        void UpdatePerson(Person person); //UpdatePerson
     }
 }

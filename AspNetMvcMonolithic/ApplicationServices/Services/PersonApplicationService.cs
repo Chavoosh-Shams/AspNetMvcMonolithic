@@ -1,5 +1,6 @@
 ﻿using AspNetMvcMonolithic.ApplicationServices.Dtos;
 using AspNetMvcMonolithic.ApplicationServices.Services.Contracts;
+using AspNetMvcMonolithic.Models.DomainModels.PersonAggregates;
 using AspNetMvcMonolithic.Models.Services.Contracts;
 
 namespace AspNetMvcMonolithic.ApplicationServices.Services
@@ -18,6 +19,7 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
         #endregion
 
         #region [-Implement IPersonApplicationService-]
+
 
         #region [-GetAllPersonAsync-]
         public async Task<List<GetPersonDtos>> GetAllPersonAsync()
@@ -57,7 +59,20 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
             PersonDetail.LastName = person.LastName;
             return PersonDetail;
         }
-        #endregion 
+        #endregion
+
+
+        #region [-UpdatePerson-]
+        public void UpdatePersonAsync(PersonUpdate personUpdate)
+        {
+            var person = new Person();
+            person.Id = personUpdate.Id;
+            person.FirstName = personUpdate.FirstName;
+            person.LastName = personUpdate.LastName;
+            _personRepository.UpdatePerson(person);
+        }
+        #endregion
+
 
         #endregion
 

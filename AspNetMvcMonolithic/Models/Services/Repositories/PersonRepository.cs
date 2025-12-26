@@ -40,6 +40,14 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         public Person GetPersonById(Guid id)
         {
             return _context.Person.FirstOrDefault(p => p.Id == id);
+        }
+        #endregion
+
+        #region [-Update Person-]
+        public void UpdatePerson(Person person)
+        {
+            _context.Person.Update(person);
+            _context.SaveChanges();
         } 
         #endregion
 
