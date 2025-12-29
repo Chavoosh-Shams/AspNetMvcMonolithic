@@ -47,6 +47,8 @@ namespace AspNetMvcMonolithic.Controllers
         #endregion
 
         #region [- Edit() -]
+
+        #region [ - Get -]
         public async Task<IActionResult> Edit(Guid Id)
         {
             if (Id == Guid.Empty)
@@ -65,6 +67,42 @@ namespace AspNetMvcMonolithic.Controllers
             };
             return View(putPersonDto);
         }
+        #endregion
+
+        #region [ - Post -]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Guid Id, PutPersonDto putPersonDto)
+        {
+            if (Id != putPersonDto.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _personApplicationService.PutAsync(putPersonDto);
+                }
+
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PersonExists(putPersonDto.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(putPersonDto);
+        } 
+        #endregion
+
         #endregion
 
         #region [- Index() -]
@@ -90,5 +128,9 @@ namespace AspNetMvcMonolithic.Controllers
         }
         #endregion
 
+        private bool PersonExists(Guid id)
+        {
+            return _personApplicationService.Equals(id);
+        }
     }
 }

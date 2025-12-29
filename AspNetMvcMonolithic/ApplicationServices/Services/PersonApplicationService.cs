@@ -43,6 +43,12 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
         }
         #endregion
 
+
+        public Task DeleteAsync(DeletePersonDto deletePersonDto)
+        {
+           return _personRepository.Delete(deletePersonDto.Id);
+        }
+
         #region [- GetAsync() -]
         public async Task<List<GetPersonDto>> GetAsync()
         {
@@ -69,17 +75,21 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
         #region [- GetPersonById() -]
         public async Task<PersonDetail?> GetPersonById(Guid id)
         {
-            var person = _personRepository.GetPersonById(id);
+            var person = await _personRepository.GetPersonById(id);
             if (person == null)
             {
                 return null;
             }
-            var PersonDetail = new PersonDetail();
-            PersonDetail.Id = person.Id;
-            PersonDetail.FirstName = person.FirstName;
-            PersonDetail.LastName = person.LastName;
-            return PersonDetail;
+            var personDetail=new PersonDetail()
+            {
+                Id = person.Id,
+                FirstName = person.FirstName,
+                LastName = person.LastName
+            };
+            return personDetail;
         }
+
+
         #endregion
 
     }

@@ -8,8 +8,11 @@ namespace AspNetMvcMonolithic.Models.Services.Contracts
 
         Task Update(Person person); //UpdatePerson
 
+        Task Delete(Guid id); //Delete
+
         Task<IEnumerable<Person>> SelectAll();//SelectAll
 
-        Person? GetPersonById(Guid id); //SelectPersonById
+        Task<Person?> GetPersonById(Guid id); //SelectPersonById
+
     }
 }

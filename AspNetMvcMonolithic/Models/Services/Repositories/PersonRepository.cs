@@ -50,6 +50,25 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         }
         #endregion
 
+        #region [- Delete() -]
+        public  async Task Delete(Guid id)
+        {
+            try
+            {
+                var person = await _context.Person.FirstOrDefaultAsync(x => x.Id == id);
+                if (person != null)
+                {
+                    _context.Person.Remove(person);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception) 
+            {
+                throw;
+            }
+        } 
+        #endregion
+
         #region [- SelectAll() -]
         public async Task<IEnumerable<Person>> SelectAll()
         {
@@ -65,9 +84,9 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         #endregion
 
         #region [- GetAllPersonById() -]
-        public Person? GetPersonById(Guid id)
+        public Task<Person?> GetPersonById(Guid id)
         {
-            return _context.Person.FirstOrDefault(p => p.Id == id);
+            return _context.Person.FirstOrDefaultAsync(p => p.Id == id);
         }
         #endregion
 
