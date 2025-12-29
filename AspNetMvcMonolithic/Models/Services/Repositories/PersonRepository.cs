@@ -6,6 +6,7 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
 {
     public class PersonRepository : IPersonRepository
     {
+
         #region [-Private Fields-]
         private readonly ProjectDbContext _context;
         #endregion
@@ -18,40 +19,57 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
 
         #endregion
 
-        #region [-Implement IPersonRepository-]
-
-
-        #region [-SelectAll-]
-        public async Task<IEnumerable<Person>> SelectAll()
+        #region [- Insert () -]
+        public Task Insert(Person person)
         {
             try
             {
-                return await _context.Person.ToListAsync();
+                _context.Add(person);
+                return _context.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
         }
         #endregion
 
+        #region [- Update() -]
+        public Task Update(Person person)
+        {
+            try
+            {
+                _context.Person.Update(person);
+                return _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
 
-        #region [-GetAllPersonById-]
-        public Person GetPersonById(Guid id)
+                throw;
+            }
+        }
+        #endregion
+
+        #region [- SelectAll() -]
+        public async Task<IEnumerable<Person>> SelectAll()
+        {
+            try
+            {
+                return await _context.Person.ToListAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        #endregion
+
+        #region [- GetAllPersonById() -]
+        public Person? GetPersonById(Guid id)
         {
             return _context.Person.FirstOrDefault(p => p.Id == id);
         }
         #endregion
 
-        #region [-Update Person-]
-        public void UpdatePerson(Person person)
-        {
-            _context.Person.Update(person);
-            _context.SaveChanges();
-        } 
-        #endregion
-
-
-        #endregion
     }
 }

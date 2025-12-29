@@ -4,11 +4,12 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services.Contracts
 {
     public interface IPersonApplicationService
     {
-        Task<List<GetPersonDtos>> GetAllPersonAsync(); //GetAllPersonAsync
+        Task PostAsync(PostPersonDto postPersonDto); //Post
 
-        Task<PersonDetail> GetPersonById(Guid id); //GetPersonById
+        Task PutAsync(PutPersonDto putPersonDto); //Put
 
-        void UpdatePersonAsync(PersonUpdate personUpdate); //Post_UpdatePeron
+        Task<List<GetPersonDto>> GetAsync(); //GetAll
 
+        Task<PersonDetail?> GetPersonById(Guid id); //GetById
     }
 }

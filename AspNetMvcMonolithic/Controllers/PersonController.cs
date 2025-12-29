@@ -8,6 +8,7 @@ namespace AspNetMvcMonolithic.Controllers
 {
     public class PersonController : Controller
     {
+
         #region [-Private Fields-]
         private readonly IPersonApplicationService _personApplicationService;
         #endregion
@@ -19,14 +20,61 @@ namespace AspNetMvcMonolithic.Controllers
         }
         #endregion
 
-        #region [-Index-]
-        public async Task<IActionResult> Index()
+        #region [- Create() -]
+
+        #region [- Get -]
+        public async Task<IActionResult> Create()
         {
-            return View(await _personApplicationService.GetAllPersonAsync());
+            return View();
+        }
+
+        #endregion
+
+        #region [-Post-]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(PostPersonDto postPersonDto)
+        {
+            if (ModelState.IsValid)
+            {
+                await _personApplicationService.PostAsync(postPersonDto);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(postPersonDto);
         }
         #endregion
 
-        #region [-Details-]
+        #endregion
+
+        #region [- Edit() -]
+        public async Task<IActionResult> Edit(Guid Id)
+        {
+            if (Id == Guid.Empty)
+            {
+                return NotFound();
+            }
+            var Person = await _personApplicationService.GetPersonById(Id);
+            if (Person == null)
+            {
+                return NotFound();
+            }
+            var putPersonDto = new PutPersonDto
+            {
+                FirstName = Person.FirstName,
+                LastName = Person.LastName,
+            };
+            return View(putPersonDto);
+        }
+        #endregion
+
+        #region [- Index() -]
+        public async Task<IActionResult> Index()
+        {
+            return View(await _personApplicationService.GetAsync());
+        }
+        #endregion
+
+        #region [- Details() -]
         public async Task<IActionResult> Details(Guid Id)
         {
             if (Id == Guid.Empty)
@@ -42,54 +90,5 @@ namespace AspNetMvcMonolithic.Controllers
         }
         #endregion
 
-        #region [-Edit-]
-        public async Task<IActionResult> Edit(Guid Id)
-        {
-            if (Id == Guid.Empty)
-            {
-                return NotFound();
-            }
-            var Person = await _personApplicationService.GetPersonById(Id);
-            if (Person == null)
-            {
-                return NotFound();
-            }
-            var personUpdate = new PersonUpdate
-            {
-                Id = Person.Id,
-                FirstName = Person.FirstName,
-                LastName = Person.LastName,
-            };
-            return View(personUpdate);
-        }
-        
-
-        //public async Task<IActionResult> Edit(Guid Id, [Bind("Id,FirstName,LastName")] PersonUpdate personUpdate)
-        //{
-        //    if (Id != personUpdate.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _personApplicationService.UpdatePersonAsync(personUpdate);
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ProductExists(productUpdate.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        #endregion
     }
 }

@@ -7,32 +7,54 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
 {
     public class PersonApplicationService : IPersonApplicationService
     {
-        #region [-Private Fields-]
+
+        #region [- Private Fields -]
         private readonly IPersonRepository _personRepository;
         #endregion
 
-        #region [-Ctor-]
+        #region [- Ctor -]
         public PersonApplicationService(IPersonRepository personRepository)
         {
             _personRepository = personRepository;
         }
         #endregion
 
-        #region [-Implement IPersonApplicationService-]
+        #region [- PostAsync() -]
+        public Task PostAsync(PostPersonDto postPersonDto)
+        {
+            var person = new Person()
+            {
+                FirstName = postPersonDto.FirstName,
+                LastName = postPersonDto.LastName
+            };
+            return _personRepository.Insert(person);
+        }
+        #endregion
 
+        #region [- PutAsync() -]
+        public Task PutAsync(PutPersonDto putPersonDto)
+        {
+            var person = new Person()
+            {
+                FirstName = putPersonDto.FirstName,
+                LastName = putPersonDto.LastName
+            };
+            return _personRepository.Update(person);
+        }
+        #endregion
 
-        #region [-GetAllPersonAsync-]
-        public async Task<List<GetPersonDtos>> GetAllPersonAsync()
+        #region [- GetAsync() -]
+        public async Task<List<GetPersonDto>> GetAsync()
         {
             var persons = await Task.FromResult(_personRepository.SelectAll());
             if (persons == null)
             {
-                return new List<GetPersonDtos>();
+                return new List<GetPersonDto>();
             }
-            var getPersonDtos = new List<GetPersonDtos>();
+            var getPersonDtos = new List<GetPersonDto>();
             foreach (var person in await persons)
             {
-                var g = new GetPersonDtos
+                var g = new GetPersonDto
                 {
                     Id = person.Id,
                     FirstName = person.FirstName,
@@ -44,9 +66,8 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
         }
         #endregion
 
-
-        #region [-GetPersonById-]
-        public async Task<PersonDetail> GetPersonById(Guid id)
+        #region [- GetPersonById() -]
+        public async Task<PersonDetail?> GetPersonById(Guid id)
         {
             var person = _personRepository.GetPersonById(id);
             if (person == null)
@@ -59,21 +80,6 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
             PersonDetail.LastName = person.LastName;
             return PersonDetail;
         }
-        #endregion
-
-
-        #region [-UpdatePerson-]
-        public void UpdatePersonAsync(PersonUpdate personUpdate)
-        {
-            var person = new Person();
-            person.Id = personUpdate.Id;
-            person.FirstName = personUpdate.FirstName;
-            person.LastName = personUpdate.LastName;
-            _personRepository.UpdatePerson(person);
-        }
-        #endregion
-
-
         #endregion
 
     }
