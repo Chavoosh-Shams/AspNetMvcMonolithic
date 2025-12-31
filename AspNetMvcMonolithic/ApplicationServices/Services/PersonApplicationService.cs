@@ -20,33 +20,33 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
         #endregion
 
         #region [- PostAsync() -]
-        public Task PostAsync(PostPersonDto postPersonDto)
+        public async Task PostAsync(PostPersonDto postPersonDto)
         {
             var person = new Person()
             {
                 FirstName = postPersonDto.FirstName,
                 LastName = postPersonDto.LastName
             };
-            return _personRepository.Insert(person);
+            await _personRepository.Insert(person);
         }
         #endregion
 
         #region [- PutAsync() -]
-        public Task PutAsync(PutPersonDto putPersonDto)
+        public async Task PutAsync(PutPersonDto putPersonDto)
         {
             var person = new Person()
             {
                 FirstName = putPersonDto.FirstName,
                 LastName = putPersonDto.LastName
             };
-            return _personRepository.Update(person);
+            await _personRepository.Insert(person);
         }
         #endregion
 
         #region [- Delete() -]
-        public Task DeleteAsync(DeletePersonDto deletePersonDto)
+        public async Task DeleteAsync(DeletePersonDto deletePersonDto)
         {
-            return _personRepository.Delete(deletePersonDto.Id);
+            await _personRepository.Delete(deletePersonDto.Id);
         } 
         #endregion
 
@@ -89,8 +89,6 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
             };
             return personDetail;
         }
-
-
         #endregion
 
     }

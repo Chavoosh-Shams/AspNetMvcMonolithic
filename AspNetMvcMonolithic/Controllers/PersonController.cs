@@ -23,14 +23,13 @@ namespace AspNetMvcMonolithic.Controllers
         #region [- Create() -]
 
         #region [- Get -]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return View();
         }
-
         #endregion
 
-        #region [-Post-]
+        #region [- Post -]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PostPersonDto postPersonDto)
@@ -60,7 +59,7 @@ namespace AspNetMvcMonolithic.Controllers
             {
                 return NotFound();
             }
-            var putPersonDto = new PutPersonDto
+            var putPersonDto = new PutPersonDto()
             {
                 FirstName = Person.FirstName,
                 LastName = Person.LastName,
@@ -105,7 +104,9 @@ namespace AspNetMvcMonolithic.Controllers
 
         #endregion
 
+        #region [- Delete() -]
 
+        #region [- Get -]
         public async Task<IActionResult> Delete(Guid id)
         {
             if (id == Guid.Empty)
@@ -119,11 +120,14 @@ namespace AspNetMvcMonolithic.Controllers
             }
             return View(person);
         }
+        #endregion
+
+        #region [- Post -]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var person =await _personApplicationService.GetPersonById(id);
+            var person = await _personApplicationService.GetPersonById(id);
 
             if (person != null)
             {
@@ -134,7 +138,10 @@ namespace AspNetMvcMonolithic.Controllers
                 await _personApplicationService.DeleteAsync(deletePersonDto);
             }
             return RedirectToAction(nameof(Index));
-        }
+        }  
+        #endregion
+
+        #endregion
 
         #region [- Index() -]
         public async Task<IActionResult> Index()
@@ -163,5 +170,6 @@ namespace AspNetMvcMonolithic.Controllers
         {
             return _personApplicationService.Equals(id);
         }
+
     }
 }
