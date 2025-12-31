@@ -8,6 +8,8 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services.Contracts
 
         Task PutAsync(PutPersonDto putPersonDto); //Put
 
+        Task DeleteAsync(DeletePersonDto deletePersonDto); //Delete
+
         Task<List<GetPersonDto>> GetAsync(); //GetAll
 
         Task<PersonDetail?> GetPersonById(Guid id); //GetById
