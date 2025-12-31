@@ -1,4 +1,5 @@
 ﻿using AspNetMvcMonolithic.Models.DomainModels.PersonAggregates;
+using AspNetMvcMonolithic.Models.DomainModels.ProductAggregates;
 using Microsoft.EntityFrameworkCore;
 
 namespace AspNetMvcMonolithic.Models
@@ -15,5 +16,6 @@ namespace AspNetMvcMonolithic.Models
             }
         }
         public DbSet<Person> Person { get; set; }
+        public DbSet<Product> Product { get; set; }
     }
 }

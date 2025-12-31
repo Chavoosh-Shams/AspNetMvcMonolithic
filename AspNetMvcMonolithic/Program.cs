@@ -10,6 +10,9 @@ builder.Services.AddDbContext<ProjectDbContext>();
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<IPersonApplicationService, PersonApplicationService>();
 
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductApplicationService, ProductApplicationService>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
