@@ -12,6 +12,6 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services.Contracts
 
         Task<List<GetProductDto>> GetAsync();
 
-        Task<ProductDetail?> GetProductById(Guid id);
+        Task<ProductDetail?> GetProductByIdAsync(Guid id);
     }
 }

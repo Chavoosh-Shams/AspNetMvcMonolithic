@@ -39,7 +39,7 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
                 FirstName = putPersonDto.FirstName,
                 LastName = putPersonDto.LastName
             };
-            await _personRepository.Insert(person);
+            await _personRepository.Update(person);
         }
         #endregion
 

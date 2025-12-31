@@ -1,6 +1,9 @@
-﻿using AspNetMvcMonolithic.ApplicationServices.Dtos.ProductDtos;
+﻿using AspNetMvcMonolithic.ApplicationServices.Dtos;
+using AspNetMvcMonolithic.ApplicationServices.Dtos.ProductDtos;
 using AspNetMvcMonolithic.ApplicationServices.Services.Contracts;
+using AspNetMvcMonolithic.Models.DomainModels.ProductAggregates;
 using AspNetMvcMonolithic.Models.Services.Contracts;
+using AspNetMvcMonolithic.Models.Services.Repositories;
 
 namespace AspNetMvcMonolithic.ApplicationServices.Services
 {
@@ -19,38 +22,72 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
         #endregion
 
         #region [- PostAsync() -]
-        public Task PostAsync(PostProductDto postProductDto)
+        public async Task PostAsync(PostProductDto postProductDto)
         {
-            throw new NotImplementedException();
+            var product = new Product()
+            {
+                ProductName = postProductDto.ProductName,
+                UnitPrice = postProductDto.UnitPrice,
+                ProductDescription = postProductDto.ProductDescription,
+            };
+             await _productRepository.Insert(product);
         }
         #endregion
 
         #region [- PutAsync() -]
-        public Task PutAsync(PutProductDto putProductDto)
+        public async Task PutAsync(PutProductDto putProductDto)
         {
-            throw new NotImplementedException();
+            var product = new Product()
+            {
+                ProductName = putProductDto.ProductName,
+                UnitPrice = putProductDto.UnitPrice,
+                ProductDescription = putProductDto.ProductDescription,
+            };
+            await _productRepository.Update(product);
         }
         #endregion
 
         #region [- DeleteAsync() -]
-        public Task DeleteAsync(DeleteProductDto deleteProductDto)
+        public async Task DeleteAsync(DeleteProductDto deleteProductDto)
         {
-            throw new NotImplementedException();
+            await _productRepository.Delete(deleteProductDto.Id);
         }
         #endregion
 
         #region [- GetAsync() -]
-        public Task<List<GetProductDto>> GetAsync()
+        public async Task<List<GetProductDto>> GetAsync()
         {
-            throw new NotImplementedException();
+            var product= await _productRepository.SelectAll();
+            var result = product.Select(product => new GetProductDto
+            {
+                Id = product.Id,
+                ProductName = product.ProductName,
+                UnitPrice = product.UnitPrice,
+                ProductDescription= product.ProductDescription
+            }).ToList();
+
+            return result;
         }
         #endregion
 
         #region [- GetProductById() -]
-        public Task<ProductDetail?> GetProductById(Guid id)
+        public async Task<ProductDetail?> GetProductByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var product= await _productRepository.GetProductById(id);
+            if(product == null)
+            {
+                return null;
+            }
+            var productDetail = new ProductDetail()
+            {
+                Id = product.Id,
+                ProductName = product.ProductName,
+                UnitPrice = product.UnitPrice,
+                ProductDescription = product.ProductDescription
+            };
+            return productDetail;
         } 
         #endregion
+
     }
 }
