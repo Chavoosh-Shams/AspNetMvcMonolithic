@@ -43,11 +43,12 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
         }
         #endregion
 
-
+        #region [- Delete() -]
         public Task DeleteAsync(DeletePersonDto deletePersonDto)
         {
-           return _personRepository.Delete(deletePersonDto.Id);
-        }
+            return _personRepository.Delete(deletePersonDto.Id);
+        } 
+        #endregion
 
         #region [- GetAsync() -]
         public async Task<List<GetPersonDto>> GetAsync()

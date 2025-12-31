@@ -7,11 +7,11 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
     public class PersonRepository : IPersonRepository
     {
 
-        #region [-Private Fields-]
+        #region [- Private Fields -]
         private readonly ProjectDbContext _context;
         #endregion
 
-        #region [-Ctor-]
+        #region [- Ctor -]
         public PersonRepository(ProjectDbContext context)
         {
             _context = context;
@@ -19,13 +19,13 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
 
         #endregion
 
-        #region [- Insert () -]
-        public Task Insert(Person person)
+        #region [- Insert() -]
+        public  async Task Insert(Person person)
         {
             try
             {
                 _context.Add(person);
-                return _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (Exception)
             {
@@ -35,12 +35,12 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         #endregion
 
         #region [- Update() -]
-        public Task Update(Person person)
+        public async Task Update(Person person)
         {
             try
             {
                 _context.Person.Update(person);
-                return _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (Exception)
             {
@@ -84,9 +84,9 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         #endregion
 
         #region [- GetAllPersonById() -]
-        public Task<Person?> GetPersonById(Guid id)
+        public async Task<Person?> GetPersonById(Guid id)
         {
-            return _context.Person.FirstOrDefaultAsync(p => p.Id == id);
+           return await _context.Person.FirstOrDefaultAsync(p => p.Id == id);
         }
         #endregion
 

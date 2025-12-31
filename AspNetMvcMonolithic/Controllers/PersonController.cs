@@ -100,10 +100,41 @@ namespace AspNetMvcMonolithic.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(putPersonDto);
-        } 
+        }
         #endregion
 
         #endregion
+
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return NotFound();
+            }
+            var person = await _personApplicationService.GetPersonById(id);
+            if (person == null)
+            {
+                return NotFound();
+            }
+            return View(person);
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var person =await _personApplicationService.GetPersonById(id);
+
+            if (person != null)
+            {
+                var deletePersonDto = new DeletePersonDto()
+                {
+                    Id = id
+                };
+                await _personApplicationService.DeleteAsync(deletePersonDto);
+            }
+            return RedirectToAction(nameof(Index));
+        }
 
         #region [- Index() -]
         public async Task<IActionResult> Index()
