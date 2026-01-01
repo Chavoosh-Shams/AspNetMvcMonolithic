@@ -103,6 +103,66 @@ namespace AspNetMvcMonolithic.Controllers
 
         #region [- Delete() -]
 
+        #region [- Get -]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return NotFound();
+            }
+            var product = await _productApplicationService.GetProductByIdAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+        #endregion
+
+        #region [- Post -]
+        [HttpPost,ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var product = await _productApplicationService.GetProductByIdAsync(id);
+            if(product != null)
+            {
+                var deleteProductDto = new DeleteProductDto()
+                {
+                    Id = product.Id
+                };
+                await _productApplicationService.DeleteAsync(deleteProductDto);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        #endregion
+
+        #endregion
+
+        #region [- Index() -]
+
+        public async Task<IActionResult> Index()
+        {
+            return View(await _productApplicationService.GetAsync());
+        }
+        #endregion
+
+        #region [- Details() -]
+
+        public async Task<IActionResult> Details(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return NotFound();
+            }
+            var product = await _productApplicationService.GetProductByIdAsync(id);
+            if( product == null)
+            {  
+                return NotFound(); 
+            }
+            return View(product);
+        }
 
         #endregion
 
