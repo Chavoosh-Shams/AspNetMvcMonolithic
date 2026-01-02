@@ -37,12 +37,14 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
         #region [- PutAsync() -]
         public async Task PutAsync(PutProductDto putProductDto)
         {
-            var product = new Product()
+            var product = await _productRepository.GetProductById(putProductDto.Id);
+            if (product == null)
             {
-                ProductName = putProductDto.ProductName,
-                UnitPrice = putProductDto.UnitPrice,
-                ProductDescription = putProductDto.ProductDescription,
-            };
+                throw new Exception("Product not found");
+            }
+            product.ProductName= putProductDto.ProductName;
+            product.ProductDescription= putProductDto.ProductDescription;
+            product.UnitPrice = putProductDto.UnitPrice;
             await _productRepository.Update(product);
         }
         #endregion

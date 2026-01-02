@@ -1,4 +1,4 @@
-﻿using AspNetMvcMonolithic.ApplicationServices.Dtos;
+﻿using AspNetMvcMonolithic.ApplicationServices.Dtos.PersonDtos;
 
 namespace AspNetMvcMonolithic.ApplicationServices.Services.Contracts
 {

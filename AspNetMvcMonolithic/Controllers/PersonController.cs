@@ -1,4 +1,4 @@
-﻿using AspNetMvcMonolithic.ApplicationServices.Dtos;
+﻿using AspNetMvcMonolithic.ApplicationServices.Dtos.PersonDtos;
 using AspNetMvcMonolithic.ApplicationServices.Services.Contracts;
 using AspNetMvcMonolithic.Models.DomainModels.PersonAggregates;
 using Microsoft.AspNetCore.Mvc;
@@ -62,6 +62,7 @@ namespace AspNetMvcMonolithic.Controllers
             }
             var putPersonDto = new PutPersonDto()
             {
+                Id= Person.Id,
                 FirstName = Person.FirstName,
                 LastName = Person.LastName,
             };

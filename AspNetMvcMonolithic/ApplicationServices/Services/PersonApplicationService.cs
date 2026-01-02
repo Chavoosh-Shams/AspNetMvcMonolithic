@@ -1,4 +1,4 @@
-﻿using AspNetMvcMonolithic.ApplicationServices.Dtos;
+﻿using AspNetMvcMonolithic.ApplicationServices.Dtos.PersonDtos;
 using AspNetMvcMonolithic.ApplicationServices.Services.Contracts;
 using AspNetMvcMonolithic.Models.DomainModels.PersonAggregates;
 using AspNetMvcMonolithic.Models.Services.Contracts;
@@ -34,11 +34,13 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
         #region [- PutAsync() -]
         public async Task PutAsync(PutPersonDto putPersonDto)
         {
-            var person = new Person()
+            var person = await _personRepository.GetPersonById(putPersonDto.Id);
+            if (person == null)
             {
-                FirstName = putPersonDto.FirstName,
-                LastName = putPersonDto.LastName
-            };
+                throw new Exception("Person not found");
+            }
+            person.FirstName = putPersonDto.FirstName;
+            person.LastName = putPersonDto.LastName;
             await _personRepository.Update(person);
         }
         #endregion
