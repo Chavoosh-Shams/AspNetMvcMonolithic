@@ -59,6 +59,7 @@ namespace AspNetMvcMonolithic.Controllers
             }
             var putProductDto = new PutProductDto()
             {
+                Id= product.Id,
                 ProductName = product.ProductName,
                 UnitPrice = product.UnitPrice,
                 ProductDescription = product.ProductDescription,

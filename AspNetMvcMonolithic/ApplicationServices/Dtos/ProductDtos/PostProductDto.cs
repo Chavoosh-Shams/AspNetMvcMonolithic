@@ -2,7 +2,11 @@
 {
     public class PostProductDto
     {
-
+        public Guid Id { get; private set; }
+        public PostProductDto()
+        {
+            Id= Guid.NewGuid();
+        }
         public string ProductName { get; set; }
 
         public decimal UnitPrice { get; set; }

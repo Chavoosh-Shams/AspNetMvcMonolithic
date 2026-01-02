@@ -18,8 +18,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ApplicationServices\Dtos\PersonDtos\" />
-  </ItemGroup>
-
 </Project>
