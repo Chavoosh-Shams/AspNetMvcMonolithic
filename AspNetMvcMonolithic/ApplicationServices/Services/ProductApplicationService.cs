@@ -1,6 +1,7 @@
 ﻿using AspNetMvcMonolithic.ApplicationServices.Dtos;
 using AspNetMvcMonolithic.ApplicationServices.Dtos.ProductDtos;
 using AspNetMvcMonolithic.ApplicationServices.Services.Contracts;
+using AspNetMvcMonolithic.Models.DomainModels.PersonAggregates;
 using AspNetMvcMonolithic.Models.DomainModels.ProductAggregates;
 using AspNetMvcMonolithic.Models.Services.Contracts;
 using AspNetMvcMonolithic.Models.Services.Repositories;
@@ -37,14 +38,13 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
         #region [- PutAsync() -]
         public async Task PutAsync(PutProductDto putProductDto)
         {
-            var product = await _productRepository.GetProductById(putProductDto.Id);
-            if (product == null)
+            var product = new Product()
             {
-                throw new Exception("Product not found");
-            }
-            product.ProductName= putProductDto.ProductName;
-            product.ProductDescription= putProductDto.ProductDescription;
-            product.UnitPrice = putProductDto.UnitPrice;
+                Id = putProductDto.Id,
+                ProductName = putProductDto.ProductName,
+                UnitPrice = putProductDto.UnitPrice,
+                ProductDescription = putProductDto.ProductDescription,
+            };
             await _productRepository.Update(product);
         }
         #endregion
@@ -52,7 +52,15 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
         #region [- DeleteAsync() -]
         public async Task DeleteAsync(DeleteProductDto deleteProductDto)
         {
-            await _productRepository.Delete(deleteProductDto.Id);
+            var product = new Product()
+            {
+                Id = deleteProductDto.Id,
+                ProductName = deleteProductDto.ProductName,
+                UnitPrice= deleteProductDto.UnitPrice,
+                ProductDescription = deleteProductDto.ProductDescription,
+                
+            };
+            await _productRepository.Delete(product);
         }
         #endregion
 

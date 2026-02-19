@@ -1,6 +1,6 @@
 ﻿namespace AspNetMvcMonolithic.ApplicationServices.Dtos.PersonDtos
 {
-    public class DeletePersonDto
+    public class GetPersonForEdite
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }

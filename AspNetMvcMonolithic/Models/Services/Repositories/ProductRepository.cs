@@ -49,14 +49,14 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         #endregion
 
         #region [- Delete() -]
-        public async Task Delete(Guid id)
+        public async Task Delete(Product product)
         {
             try
             {
-                var product = await _context.Product.FindAsync(id);
-                if (product != null)
+                var productEntity = await _context.Product.FindAsync(product.Id);
+                if (productEntity != null)
                 {
-                    _context.Product.Remove(product);
+                    _context.Product.Remove(productEntity);
                     await _context.SaveChangesAsync();
                 }
             }

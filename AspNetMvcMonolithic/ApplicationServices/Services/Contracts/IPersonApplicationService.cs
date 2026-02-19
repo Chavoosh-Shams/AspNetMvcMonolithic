@@ -1,4 +1,5 @@
 ﻿using AspNetMvcMonolithic.ApplicationServices.Dtos.PersonDtos;
+using AspNetMvcMonolithic.Models.DomainModels.PersonAggregates;
 
 namespace AspNetMvcMonolithic.ApplicationServices.Services.Contracts
 {
@@ -8,10 +9,15 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services.Contracts
 
         Task PutAsync(PutPersonDto putPersonDto); //Put
 
+        Task<GetPersonForEdite?> GetForEditAsync(GetPersonForEdite getPersonForEdite);
+
+        Task<GetPersonForDelete?> GetForDeleteAsync(GetPersonForDelete getPersonForDelete);
+
         Task DeleteAsync(DeletePersonDto deletePersonDto); //Delete
 
         Task<List<GetPersonDto>> GetAsync(); //GetAll
 
-        Task<PersonDetail?> GetPersonById(Guid id); //GetById
+        Task<PersonDetail?> GetPersonById(PersonDetail personDetail); //GetById
+
     }
 }

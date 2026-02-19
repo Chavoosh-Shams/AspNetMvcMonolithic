@@ -1,4 +1,5 @@
-﻿using AspNetMvcMonolithic.Models.DomainModels.ProductAggregates;
+﻿using AspNetMvcMonolithic.ApplicationServices.Dtos.ProductDtos;
+using AspNetMvcMonolithic.Models.DomainModels.ProductAggregates;
 
 namespace AspNetMvcMonolithic.Models.Services.Contracts
 {
@@ -9,11 +10,11 @@ namespace AspNetMvcMonolithic.Models.Services.Contracts
 
         Task Update(Product product);
 
-        Task Delete(Guid id);
+        Task Delete(Product product);
 
         Task<IEnumerable<Product>> SelectAll();
 
         Task<Product?> GetProductById(Guid id);
-
+        
     }
 }
