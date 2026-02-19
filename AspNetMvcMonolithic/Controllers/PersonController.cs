@@ -49,22 +49,22 @@ namespace AspNetMvcMonolithic.Controllers
         #region [- Edit() -]
 
         #region [ - Get -]
-        public async Task<IActionResult> Edit(Guid Id)
+        public async Task<IActionResult> Edit(GetPersonForEdite getPersonForEdite)
         {
-            if (Id == Guid.Empty)
+            if (getPersonForEdite.Id == Guid.Empty)
             {
                 return NotFound();
             }
-            var Person = await _personApplicationService.GetPersonById(Id);
-            if (Person == null)
+            var person = await _personApplicationService.GetForEditAsync(getPersonForEdite);
+            if (person == null)
             {
                 return NotFound();
             }
             var putPersonDto = new PutPersonDto()
             {
-                Id= Person.Id,
-                FirstName = Person.FirstName,
-                LastName = Person.LastName,
+                Id = person.Id,
+                FirstName = person.FirstName,
+                LastName = person.LastName
             };
             return View(putPersonDto);
         }
@@ -73,31 +73,11 @@ namespace AspNetMvcMonolithic.Controllers
         #region [ - Post -]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid Id, PutPersonDto putPersonDto)
+        public async Task<IActionResult> Edit(PutPersonDto putPersonDto)
         {
-            if (Id != putPersonDto.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    await _personApplicationService.PutAsync(putPersonDto);
-                }
-
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PersonExists(putPersonDto.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _personApplicationService.PutAsync(putPersonDto);
                 return RedirectToAction(nameof(Index));
             }
             return View(putPersonDto);
@@ -109,13 +89,13 @@ namespace AspNetMvcMonolithic.Controllers
         #region [- Delete() -]
 
         #region [- Get -]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(GetPersonForDelete getPersonForDelete)
         {
-            if (id == Guid.Empty)
+            if (getPersonForDelete.Id == Guid.Empty)
             {
                 return NotFound();
             }
-            var person = await _personApplicationService.GetPersonById(id);
+            var person = await _personApplicationService.GetForDeleteAsync(getPersonForDelete);
             if (person == null)
             {
                 return NotFound();
@@ -127,18 +107,9 @@ namespace AspNetMvcMonolithic.Controllers
         #region [- Post -]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(DeletePersonDto deletePersonDto)
         {
-            var person = await _personApplicationService.GetPersonById(id);
-
-            if (person != null)
-            {
-                var deletePersonDto = new DeletePersonDto()
-                {
-                    Id = id
-                };
-                await _personApplicationService.DeleteAsync(deletePersonDto);
-            }
+            await _personApplicationService.DeleteAsync(deletePersonDto); 
             return RedirectToAction(nameof(Index));
         }  
         #endregion
@@ -153,25 +124,20 @@ namespace AspNetMvcMonolithic.Controllers
         #endregion
 
         #region [- Details() -]
-        public async Task<IActionResult> Details(Guid Id)
+        public async Task<IActionResult> Details(PersonDetail personDetail)
         {
-            if (Id == Guid.Empty)
+            if (personDetail.Id == Guid.Empty)
             {
                 return NotFound();
             }
-            var Person = await _personApplicationService.GetPersonById(Id);
-            if (Person == null)
+            var personViewModel = await _personApplicationService.GetPersonById(personDetail);
+            if (personViewModel == null)
             {
                 return NotFound();
             }
-            return View(Person);
+            return View(personViewModel);
         }
         #endregion
-
-        private bool PersonExists(Guid id)
-        {
-            return _personApplicationService.Equals(id);
-        }
 
     }
 }

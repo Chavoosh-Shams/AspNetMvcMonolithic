@@ -1,6 +1,7 @@
 ﻿using AspNetMvcMonolithic.Models.DomainModels.PersonAggregates;
 using AspNetMvcMonolithic.Models.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace AspNetMvcMonolithic.Models.Services.Repositories
 {
@@ -33,7 +34,7 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
             }
         }
         #endregion
-
+       
         #region [- Update() -]
         public async Task Update(Person person)
         {
@@ -50,15 +51,22 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         }
         #endregion
 
+        #region [- SelectPersonForEdite() -]
+        public async Task<Person?> SelectPersonForEdite(Person person)
+        {
+            return await _context.Person.FindAsync(person.Id);
+        } 
+        #endregion
+
         #region [- Delete() -]
-        public  async Task Delete(Guid id)
+        public  async Task Delete(Person person)
         {
             try
             {
-                var person = await _context.Person.FirstOrDefaultAsync(x => x.Id == id);
-                if (person != null)
+                var personEntity = await _context.Person.FindAsync(person.Id);
+                if (personEntity != null)
                 {
-                    _context.Person.Remove(person);
+                    _context.Person.Remove(personEntity);
                     await _context.SaveChangesAsync();
                 }
             }
@@ -66,6 +74,13 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
             {
                 throw;
             }
+        }
+        #endregion
+
+        #region [- SelectPersonForDelete() -]
+        public async Task<Person?> SelectPersonForDelete(Person person)
+        {
+            return await _context.Person.FindAsync(person.Id);
         } 
         #endregion
 
@@ -84,9 +99,9 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         #endregion
 
         #region [- GetAllPersonById() -]
-        public async Task<Person?> GetPersonById(Guid id)
+        public async Task<Person?> SelectPersonById(Person person)
         {
-           return await _context.Person.FirstOrDefaultAsync(p => p.Id == id);
+           return await _context.Person.FindAsync(person.Id);
         }
         #endregion
 

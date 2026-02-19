@@ -1,7 +1,9 @@
 ﻿using AspNetMvcMonolithic.ApplicationServices.Dtos.PersonDtos;
+using AspNetMvcMonolithic.ApplicationServices.Dtos.ProductDtos;
 using AspNetMvcMonolithic.ApplicationServices.Services.Contracts;
 using AspNetMvcMonolithic.Models.DomainModels.PersonAggregates;
 using AspNetMvcMonolithic.Models.Services.Contracts;
+using AspNetMvcMonolithic.Models.Services.Repositories;
 
 namespace AspNetMvcMonolithic.ApplicationServices.Services
 {
@@ -34,21 +36,72 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
         #region [- PutAsync() -]
         public async Task PutAsync(PutPersonDto putPersonDto)
         {
-            var person = await _personRepository.GetPersonById(putPersonDto.Id);
-            if (person == null)
+            var person = new Person()
             {
-                throw new Exception("Person not found");
-            }
-            person.FirstName = putPersonDto.FirstName;
-            person.LastName = putPersonDto.LastName;
+                Id = putPersonDto.Id,
+                FirstName = putPersonDto.FirstName,
+                LastName = putPersonDto.LastName
+            };
             await _personRepository.Update(person);
         }
+        #endregion
+
+        #region [- GetForEditAsync() -]
+        public async Task<GetPersonForEdite?> GetForEditAsync(GetPersonForEdite getPersonForEdite)
+        {
+            var person = new Person()
+            {
+                Id = getPersonForEdite.Id,
+                FirstName = getPersonForEdite.FirstName,
+                LastName = getPersonForEdite.LastName,
+            };
+            var personDto = await _personRepository.SelectPersonForEdite(person);
+            if (personDto == null)
+            {
+                return null;
+            }
+            return new GetPersonForEdite()
+            {
+                Id = personDto.Id,
+                FirstName = personDto.FirstName,
+                LastName = personDto.LastName,
+            };
+        } 
         #endregion
 
         #region [- Delete() -]
         public async Task DeleteAsync(DeletePersonDto deletePersonDto)
         {
-            await _personRepository.Delete(deletePersonDto.Id);
+            var person = new Person()
+            {
+                Id = deletePersonDto.Id,
+                FirstName = deletePersonDto.FirstName,
+                LastName = deletePersonDto.LastName
+            };
+            await _personRepository.Delete(person);
+        }
+        #endregion
+
+        #region [- GetForDeleteAsync() -]
+        public async Task<GetPersonForDelete?> GetForDeleteAsync(GetPersonForDelete getPersonForDelete)
+        {
+            var person = new Person()
+            {
+                Id = getPersonForDelete.Id,
+                FirstName = getPersonForDelete.FirstName,
+                LastName = getPersonForDelete.LastName,
+            };
+            var personDto= await _personRepository.SelectPersonForDelete(person);
+            if(personDto == null)
+            {
+                return null;
+            }
+            return new GetPersonForDelete()
+            {
+                Id = personDto.Id,
+                FirstName = personDto.FirstName,
+                LastName = personDto.LastName,
+            };
         } 
         #endregion
 
@@ -76,22 +129,29 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
         #endregion
 
         #region [- GetPersonById() -]
-        public async Task<PersonDetail?> GetPersonById(Guid id)
+        public async Task<PersonDetail?> GetPersonById(PersonDetail personDetail)
         {
-            var person = await _personRepository.GetPersonById(id);
-            if (person == null)
+            var person = new Person()
+            {
+                Id = personDetail.Id,
+                FirstName = personDetail.FirstName,
+                LastName = personDetail.LastName,
+            };
+            var personDto = await _personRepository.SelectPersonById(person);
+            if (personDto == null)
             {
                 return null;
             }
-            var personDetail=new PersonDetail()
+            return new PersonDetail()
             {
-                Id = person.Id,
-                FirstName = person.FirstName,
-                LastName = person.LastName
+                Id = personDto.Id,
+                FirstName = personDto.FirstName,
+                LastName = personDto.LastName,
             };
-            return personDetail;
         }
         #endregion
+
+
 
     }
 }
