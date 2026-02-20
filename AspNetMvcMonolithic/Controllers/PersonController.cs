@@ -49,7 +49,7 @@ namespace AspNetMvcMonolithic.Controllers
         #region [- Edit() -]
 
         #region [ - Get -]
-        public async Task<IActionResult> Edit(GetPersonForEdite getPersonForEdite)
+        public async Task<IActionResult> Edit(GetPersonForEdit getPersonForEdite)
         {
             if (getPersonForEdite.Id == Guid.Empty)
             {

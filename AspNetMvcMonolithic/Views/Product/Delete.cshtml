@@ -1,4 +1,4 @@
-﻿@model ProductDetail
+﻿@model GetProductForDelete
 
 @{
     ViewData["Title"] = "Delete";
@@ -12,17 +12,19 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductName)
+            @Html.DisplayNameFor(model => model.Title)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProductName)
+            @Html.DisplayFor(model => model.Title)
         </dd>
+
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductDescription)
+            @Html.DisplayNameFor(model => model.DescriptionRecord)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProductDescription)
+            @Html.DisplayFor(model => model.DescriptionRecord)
         </dd>
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.UnitPrice)
         </dt>
@@ -36,4 +38,4 @@
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
-</div>
+</div> 

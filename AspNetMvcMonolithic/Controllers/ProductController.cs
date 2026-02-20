@@ -1,5 +1,4 @@
 ﻿using AspNetMvcMonolithic.ApplicationServices.Dtos.ProductDtos;
-using AspNetMvcMonolithic.ApplicationServices.Services;
 using AspNetMvcMonolithic.ApplicationServices.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,23 +45,23 @@ namespace AspNetMvcMonolithic.Controllers
         #region [- Edit() -]
 
         #region [- Get -]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(GetProductForEdit getProductForEdit)
         {
-            if (id == Guid.Empty)
+            if (getProductForEdit.Id == Guid.Empty)
             {
                 return NotFound();
             }
-            var product = await _productApplicationService.GetProductByIdAsync(id);
+            var product = await _productApplicationService.GetForEditAsync(getProductForEdit);
             if (product == null)
             {
                 return NotFound();
             }
             var putProductDto = new PutProductDto()
             {
-                Id= product.Id,
-                ProductName = product.ProductName,
-                UnitPrice = product.UnitPrice,
-                ProductDescription = product.ProductDescription,
+                Id = getProductForEdit.Id,
+                Title = getProductForEdit.Title,
+                DescriptionRecord = getProductForEdit.DescriptionRecord,
+                UnitPrice = getProductForEdit.UnitPrice
             };
             return View(putProductDto);
         }
@@ -71,29 +70,11 @@ namespace AspNetMvcMonolithic.Controllers
         #region [- Post -]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, PutProductDto putProductDto)
+        public async Task<IActionResult> Edit(PutProductDto putProductDto)
         {
-            if (id != putProductDto.Id)
-            {
-                return NotFound();
-            }
             if (ModelState.IsValid)
             {
-                try
-                {
-                    await _productApplicationService.PutAsync(putProductDto);
-                }
-                catch (Exception)
-                {
-                    if (!ProductExists(putProductDto.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _productApplicationService.PutAsync(putProductDto);
                 return RedirectToAction(nameof(Index));
             }
             return View(putProductDto);
@@ -105,13 +86,13 @@ namespace AspNetMvcMonolithic.Controllers
         #region [- Delete() -]
 
         #region [- Get -]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(GetProductForDelete getProductForDelete)
         {
-            if (id == Guid.Empty)
+            if (getProductForDelete.Id == Guid.Empty)
             {
                 return NotFound();
             }
-            var product = await _productApplicationService.GetProductByIdAsync(id);
+            var product = await _productApplicationService.GetForDeleteAsync(getProductForDelete);
             if (product == null)
             {
                 return NotFound();
@@ -123,26 +104,16 @@ namespace AspNetMvcMonolithic.Controllers
         #region [- Post -]
         [HttpPost,ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(DeleteProductDto deleteProductDto)
         {
-            var product = await _productApplicationService.GetProductByIdAsync(id);
-            if(product != null)
-            {
-                var deleteProductDto = new DeleteProductDto()
-                {
-                    Id = product.Id
-                };
-                await _productApplicationService.DeleteAsync(deleteProductDto);
-            }
+            await _productApplicationService.DeleteAsync(deleteProductDto);
             return RedirectToAction(nameof(Index));
         }
-
         #endregion
 
         #endregion
 
         #region [- Index() -]
-
         public async Task<IActionResult> Index()
         {
             return View(await _productApplicationService.GetAsync());
@@ -150,26 +121,19 @@ namespace AspNetMvcMonolithic.Controllers
         #endregion
 
         #region [- Details() -]
-
-        public async Task<IActionResult> Details(Guid id)
+        public async Task<IActionResult> Details(ProductDetail productDetail)
         {
-            if (id == Guid.Empty)
+            if (productDetail.Id == Guid.Empty)
             {
                 return NotFound();
             }
-            var product = await _productApplicationService.GetProductByIdAsync(id);
-            if( product == null)
+            var product = await _productApplicationService.GetProductByIdAsync(productDetail);
+            if ( product == null)
             {  
                 return NotFound(); 
             }
             return View(product);
         }
-
         #endregion
-
-        private bool ProductExists(Guid id)
-        {
-            return _productApplicationService.Equals(id);
-        }
     }
 }
