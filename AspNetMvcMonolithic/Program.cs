@@ -7,6 +7,7 @@ using AspNetMvcMonolithic.Models.Services.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ProjectDbContext>();
+
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<IPersonApplicationService, PersonApplicationService>();
 

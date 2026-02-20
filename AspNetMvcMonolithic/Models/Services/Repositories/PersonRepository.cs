@@ -8,9 +8,11 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
     public class PersonRepository : IPersonRepository
     {
 
+
         #region [- Private Fields -]
         private readonly ProjectDbContext _context;
         #endregion
+
 
         #region [- Ctor -]
         public PersonRepository(ProjectDbContext context)
@@ -19,6 +21,7 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         }
 
         #endregion
+
 
         #region [- Insert() -]
         public  async Task Insert(Person person)
@@ -35,6 +38,7 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         }
         #endregion
        
+
         #region [- Update() -]
         public async Task Update(Person person)
         {
@@ -51,15 +55,9 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         }
         #endregion
 
-        #region [- SelectPersonForEdite() -]
-        public async Task<Person?> SelectPersonForEdite(Person person)
-        {
-            return await _context.Person.FindAsync(person.Id);
-        } 
-        #endregion
 
         #region [- Delete() -]
-        public  async Task Delete(Person person)
+        public async Task Delete(Person person)
         {
             try
             {
@@ -70,19 +68,37 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
                     await _context.SaveChangesAsync();
                 }
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 throw;
             }
         }
         #endregion
 
-        #region [- SelectPersonForDelete() -]
-        public async Task<Person?> SelectPersonForDelete(Person person)
+
+        #region [- SelectPersonForEdite() -]
+        public async Task<Person?> SelectPersonForEdite(Person person)
         {
             return await _context.Person.FindAsync(person.Id);
         } 
         #endregion
+
+
+        #region [- SelectPersonForDelete() -]
+        public async Task<Person?> SelectPersonForDelete(Person person)
+        {
+            return await _context.Person.FindAsync(person.Id);
+        }
+        #endregion
+
+
+        #region [- SelectAllPersonById() -]
+        public async Task<Person?> SelectPersonById(Person person)
+        {
+            return await _context.Person.FindAsync(person.Id);
+        }
+        #endregion
+
 
         #region [- SelectAll() -]
         public async Task<IEnumerable<Person>> SelectAll()
@@ -98,12 +114,6 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         }
         #endregion
 
-        #region [- GetAllPersonById() -]
-        public async Task<Person?> SelectPersonById(Person person)
-        {
-           return await _context.Person.FindAsync(person.Id);
-        }
-        #endregion
 
     }
 }

@@ -5,13 +5,14 @@
         public Guid Id { get; private set; }
         public PostProductDto()
         {
-            Id= Guid.NewGuid();
+            Id = Guid.NewGuid();
         }
-        public string ProductName { get; set; }
+
+        public string Title { get; set; }
+
+        public string DescriptionRecord { get; set; }
 
         public decimal UnitPrice { get; set; }
-
-        public string ProductDescription { get; set; }
 
     }
 }

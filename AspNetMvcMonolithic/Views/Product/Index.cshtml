@@ -7,16 +7,17 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<table class="table">
+
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ProductName)
+                @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductDescription)
+                @Html.DisplayNameFor(model => model.DescriptionRecord)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UnitPrice)
@@ -29,10 +30,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ProductName)
+                    @Html.DisplayFor(modelItem => item.Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ProductDescription)
+                    @Html.DisplayFor(modelItem => item.DescriptionRecord)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UnitPrice)

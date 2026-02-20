@@ -1,6 +1,6 @@
 ﻿namespace AspNetMvcMonolithic.ApplicationServices.Dtos.ProductDtos
 {
-    public class GetProductDto
+    public class GetProductForEdit
     {
         public Guid Id { get; set; }
 

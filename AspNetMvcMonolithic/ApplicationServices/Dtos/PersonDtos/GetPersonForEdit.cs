@@ -1,6 +1,6 @@
 ﻿namespace AspNetMvcMonolithic.ApplicationServices.Dtos.PersonDtos
 {
-    public class GetPersonForEdite
+    public class GetPersonForEdit
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }

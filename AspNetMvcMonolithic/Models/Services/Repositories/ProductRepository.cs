@@ -11,12 +11,14 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         private readonly ProjectDbContext _context;
         #endregion
 
+
         #region [- Ctor -]
         public ProductRepository(ProjectDbContext context)
         {
             _context = context;
         }
         #endregion
+
 
         #region [- Insert() -]
         public async Task Insert(Product product)
@@ -33,6 +35,7 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         }
         #endregion
 
+
         #region [- Update() -]
         public async Task Update(Product product)
         {
@@ -47,6 +50,7 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
             }
         }
         #endregion
+
 
         #region [- Delete() -]
         public async Task Delete(Product product)
@@ -67,6 +71,31 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         }
         #endregion
 
+
+        #region [- SelectProductForEdite() -]
+        public async Task<Product?> SelectProductForEdit(Product product)
+        {
+            return await _context.Product.FindAsync(product.Id);
+        }
+        #endregion
+
+
+        #region [- SelectProductForDelete() -]
+        public async Task<Product?> SelectProductForDelete(Product product)
+        {
+            return await _context.Product.FindAsync(product.Id);
+        }
+        #endregion
+
+
+        #region [- SelectProductById() -]
+        public async Task<Product?> SelectProductById(Product product)
+        {
+            return await _context.Product.FindAsync(product.Id);
+        } 
+        #endregion
+
+
         #region [- SelectAll() -]
         public async Task<IEnumerable<Product>> SelectAll()
         {
@@ -81,12 +110,6 @@ namespace AspNetMvcMonolithic.Models.Services.Repositories
         }
         #endregion
 
-        #region [- GetProductById() -]
-        public async Task<Product?> GetProductById(Guid id)
-        {
-            return await _context.Product.FirstOrDefaultAsync(x=>id==x.Id);
-        } 
-        #endregion
 
     }
 }

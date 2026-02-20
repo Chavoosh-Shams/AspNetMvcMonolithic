@@ -9,15 +9,15 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services.Contracts
 
         Task PutAsync(PutPersonDto putPersonDto); //Put
 
-        Task<GetPersonForEdite?> GetForEditAsync(GetPersonForEdite getPersonForEdite);
+        Task DeleteAsync(DeletePersonDto deletePersonDto); //Delete
+
+        Task<GetPersonForEdit?> GetForEditAsync(GetPersonForEdit getPersonForEdite);
 
         Task<GetPersonForDelete?> GetForDeleteAsync(GetPersonForDelete getPersonForDelete);
 
-        Task DeleteAsync(DeletePersonDto deletePersonDto); //Delete
+        Task<PersonDetail?> GetPersonById(PersonDetail personDetail); //GetById
 
         Task<List<GetPersonDto>> GetAsync(); //GetAll
-
-        Task<PersonDetail?> GetPersonById(PersonDetail personDetail); //GetById
 
     }
 }

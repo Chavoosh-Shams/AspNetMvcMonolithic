@@ -47,7 +47,7 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
         #endregion
 
         #region [- GetForEditAsync() -]
-        public async Task<GetPersonForEdite?> GetForEditAsync(GetPersonForEdite getPersonForEdite)
+        public async Task<GetPersonForEdit?> GetForEditAsync(GetPersonForEdit getPersonForEdite)
         {
             var person = new Person()
             {
@@ -60,7 +60,7 @@ namespace AspNetMvcMonolithic.ApplicationServices.Services
             {
                 return null;
             }
-            return new GetPersonForEdite()
+            return new GetPersonForEdit()
             {
                 Id = personDto.Id,
                 FirstName = personDto.FirstName,
